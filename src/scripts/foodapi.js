@@ -20,11 +20,11 @@ function foodFactory(food){
 };
 
 function addFoodToDom (foodAsHTML) {
-    var artClass = `food-${foodAsHTML.split(",")[0]}`;
+
     var art = document.createElement("article");
     var artText = document.createTextNode("");
     art.appendChild(artText);
-    art.classList.add([artClass]);
+    art.classList.add(`food-${foodAsHTML.split(",")[0]}`);
     document.getElementById("foodList").appendChild(art);
 
     var h = document.createElement("h1");

@@ -1,38 +1,44 @@
-// fetch("http://localhost:8088/food")
-//         .then(foods => foods.json())
-//         .then(parsedFoods => {
+fetch("http://localhost:8088/food")
+        .then(foods => foods.json())
+        .then(parsedFoods => {
 
-//             parsedFoods.forEach(food => {
-                
-//                 const foodAsHTML = foodFactory(food)
-//                 // addFoodToDom(foodAsHTML)
+            parsedFoods.forEach(food => {
+                const foodAsHTML = foodFactory(food)
+                console.log(foodAsHTML)
+                addFoodToDom(foodAsHTML)
 
-//             })
-//         });
+            })
+        });
 
-                
-// function foodFactory(food){
-//     var foodName = food.name;
-//     var foodType = food.type;
-//     var foodEthnicity = food.ethnicity;
-//     var foodID = food.id;
+function foodFactory(food){
+    var foodID = food.id;
+    var foodName = food.name;
+    var foodType = food.type;
+    var foodEthnicity = food.ethnicity;
+    let foodAsHTML = `${foodID},${foodName}, ${foodEthnicity}, ${foodType}`
+    return foodAsHTML
+};
 
-//     console.log (`<article id = "food-${foodID}"><h1>${foodName}</h1> + newLine + ${foodEthnicity} + newLine + ${foodType}</article>`);
-//     let foodAsHTML =  `<article id = "food-${foodID}"><h1>${foodName}</h1> + newLine + ${foodEthnicity} + newLine + ${foodType}</article>`
-//     return foodAsHTML
-// };
+function addFoodToDom (foodAsHTML) {
+    var artClass = `food-${foodAsHTML.split(",")[0]}`;
+    var art = document.createElement("article");
+    var artText = document.createTextNode("");
+    art.appendChild(artText);
+    art.classList.add([artClass]);
+    document.getElementById("foodList").appendChild(art);
 
-// /* <section class = "foodList">
+    var h = document.createElement("h1");
+    var hText = document.createTextNode(foodAsHTML.split(",")[1]);
+    h.appendChild(hText);
+    art.appendChild(h);
 
+    var div1 = document.createElement("div");
+    var div1Text = document.createTextNode(foodAsHTML.split(",")[2]);
+    div1.appendChild(div1Text);
+    art.appendChild(div1);
 
-
-// function addFoodToDom (foodAsHTML) {
-    
-//     // Create a function that inserts an HTML representation of a food into the DOM
-//     var sect = document.getElementById("foodList");
-//     var art = document.createElement(foodAsHTML);
-    
-//     art.appendChild(sect);
-// };
-
-    // In main.css ---- Use Flexbox row direction so that you have a horizontal list of items.
+    var div2 = document.createElement("div");
+    var div2Text = document.createTextNode(foodAsHTML.split(",")[3]);
+    div2.appendChild(div2Text);
+    art.appendChild(div2);
+};

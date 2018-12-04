@@ -26,21 +26,6 @@ fetch("http://localhost:8088/food")
         })
     });
 
-
-//Chapter 10 - Exercise 1 - Displaying Foods
-
-// fetch("http://localhost:8088/food")
-//         .then(foods => foods.json())
-//         .then(parsedFoods => {
-
-//             parsedFoods.forEach(food => {
-//                 const foodAsHTML = foodFactory(food)
-//                 console.log(foodAsHTML)
-//                 addFoodToDom(foodAsHTML)
-
-//             })
-//         });
-
 function foodFactory(food){
 
     var foodID = food.id;

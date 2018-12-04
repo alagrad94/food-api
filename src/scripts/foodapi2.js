@@ -15,65 +15,62 @@ fetch("http://localhost:8088/food")
 
         parsedFoods.forEach(food => {
 
-            fetch(`https://world.openfoodfacts.org/api/v0/product/${food.barcode}.json`)
-            .then(response => response.json())
-            .then(productInfo => {
-                    
-               const additionalInfoAsHTML = additionalInfoFactory(productInfo);
-               const foodAsHTML = foodFactory(food);
-               addFoodToDom(foodAsHTML, additionalInfoAsHTML);
-            })
+            let foodAsHTML = foodFactory(food)
+            addFoodToDom(foodAsHTML)
         })
     });
 
 function foodFactory(food){
 
-    var foodID = food.id;
-    var foodName = food.name;
-    var foodType = food.type;
-    var foodEthnicity = food.ethnicity;
-    let foodAsHTML = `${foodID},${foodName}, ${foodEthnicity}, ${foodType}`
-    return foodAsHTML
-};
-
-function additionalInfoFactory(productInfo){
-    
-    var ingredients = productInfo.product.ingredients_text
-    var country = productInfo.product.countries
-    var calories = productInfo.product.nutriments.energy_value
-    var fat = productInfo.product.nutriments.fat_value
-    var sugar = productInfo.product.nutriments.sugars_value
-    
-    let additionalInfoAsHTML = `${ingredients},${country}, ${calories}, ${fat}, ${sugar}`
-    return additionalInfoAsHTML;
-};
-
-function addFoodToDom (foodAsHTML, additionalInfoAsHTML) {
-
-    var art = document.createElement("article");
-    var artText = document.createTextNode("");
+    fetch(`https://world.openfoodfacts.org/api/v0/product/${food.barcode}.json`)
+    .then(response => response.json())
+    .then(productInfo => {
+        
+            let ingredients = productInfo.product.ingredients_text
+            let country = productInfo.product.countries
+            let calories = productInfo.product.nutriments.energy_value
+            let fat = productInfo.product.nutriments.fat_value
+            let sugar = productInfo.product.nutriments.sugars_value
+            
+            let div3 = document.createElement("div");
+            let div3Text = document.createTextNode(`Ingredients: ${ingredients}, Country: ${country}, Calories: ${calories}, Fat: ${fat}, Sugar: ${sugar}`);
+            div3.appendChild(div3Text);
+            console.log(div3);
+            
+            art.appendChild(div3);
+        });
+   
+    let foodID = food.id;
+    let foodName = food.name;
+    let foodType = food.type;
+    let foodEthnicity = food.ethnicity;
+   
+    let art = document.createElement("article");
+    let artText = document.createTextNode("");
     art.appendChild(artText);
-    art.classList.add(`food-${foodAsHTML.split(",")[0]}`);
-    document.getElementById("foodList").appendChild(art);
+    art.classList.add(`food-${foodID}`);
 
-    var h = document.createElement("h1");
-    var hText = document.createTextNode(foodAsHTML.split(",")[1]);
+    let h = document.createElement("h1");
+    let hText = document.createTextNode(foodName);
     h.appendChild(hText);
     art.appendChild(h);
 
-    var div1 = document.createElement("div");
-    var div1Text = document.createTextNode(foodAsHTML.split(",")[2]);
+    let div1 = document.createElement("div");
+    let div1Text = document.createTextNode(foodType);
     div1.appendChild(div1Text);
     art.appendChild(div1);
 
-    var div2 = document.createElement("div");
-    var div2Text = document.createTextNode(foodAsHTML.split(",")[3]);
+    let div2 = document.createElement("div");
+    let div2Text = document.createTextNode(foodEthnicity);
     div2.appendChild(div2Text);
     art.appendChild(div2);
 
-    var div3 = document.createElement("div");
-    var div3Text = document.createTextNode(`Ingredients: ${additionalInfoAsHTML.split(",")[0]}, Country: ${additionalInfoAsHTML.split(",")[1]}, Calories: ${additionalInfoAsHTML.split(",")[2]}, Fat: ${additionalInfoAsHTML.split(",")[3]}, Sugar: ${additionalInfoAsHTML.split(",")[0]}`);
-    div3.appendChild(div3Text);
-    art.appendChild(div3);
+    return art
+};
+
+function addFoodToDom (foodAsHTML) {
+
+    
+    document.getElementById("foodList").appendChild(foodAsHTML);
 
 };
